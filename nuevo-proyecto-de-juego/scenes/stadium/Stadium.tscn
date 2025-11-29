@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://ddmup8bi4svo3"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_8x6sp"]
+bg_color = Color(0.8393348, 0.50516737, 0.28225565, 1)
+
+[node name="Stadium" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+
+[node name="Panel" type="Panel" parent="."]
+layout_mode = 0
+offset_left = 373.0
+offset_top = 159.0
+offset_right = 654.0
+offset_bottom = 436.0
+theme_override_styles/panel = SubResource("StyleBoxFlat_8x6sp")
