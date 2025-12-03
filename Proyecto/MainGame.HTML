@@ -380,8 +380,8 @@
         .character-sprite {
             width: 200px;
             height: 300px;
-            object-fit: cover;
-            object-position: top;
+            object-fit: contain;
+            object-position: bottom;
             filter: drop-shadow(0 0 10px rgba(236, 72, 153, 0.5));
             transition: all 0.3s;
             margin-bottom: -20px;
@@ -394,8 +394,8 @@
         }
 
         .sprite-sad {
-            filter: grayscale(0.8) brightness(0.8) drop-shadow(0 0 5px blue);
-            transform: translateY(10px);
+            filter: grayscale(0.2) brightness(0.9);
+            transform: translateY(5px);
         }
 
         .sprite-happy {
@@ -804,8 +804,8 @@
         <!-- STORY OVERLAY -->
         <div id="story-overlay">
             <div class="story-box">
-                <img src="assets/img/DizzyMamboSF.png" id="story-sprite" class="character-sprite sprite-normal"
-                    alt="Mambo">
+                <!-- Imagen dinámica -->
+                <img src="" id="story-sprite" class="character-sprite" alt="Mambo">
                 <div class="dialogue-box">
                     <div class="speaker-name">Mambo</div>
                     <p id="story-text" style="margin:0; min-height:3em; line-height:1.5;">...</p>
@@ -821,7 +821,7 @@
         <!-- MAMBO CORNER (Asistente) -->
         <div id="host-corner" class="hidden">
             <div class="host-bubble" id="host-bubble">¡Tú puedes!</div>
-            <img src="assets/img/mambo.png" class="host-img-small" alt="Chibi" onclick="host.randomQuote()">
+            <img src="assets/img/mamboIdleSF.png" class="host-img-small" alt="Chibi" onclick="host.randomQuote()">
         </div>
 
     </div>
@@ -919,10 +919,19 @@
             }
         };
 
+        /* --- DEFINICIÓN DE IMÁGENES DE MAMBO --- */
+        const mamboSprites = {
+            normal: "assets/img/mamboIdleSF.png",
+            sad: "assets/img/mambosadSF.png",
+            happy: "assets/img/WinningMamboSF.png",
+            shock: "assets/img/DizzyMamboSF.png"
+        };
+
         /* --- STORY ENGINE --- */
         const story = {
             queue: [],
             step: 0,
+
             scenes: {
                 intro: [
                     { text: "¡Entrenador! (Snif) Metí la pata horrible...", emotion: "sad" },
@@ -933,35 +942,45 @@
                 ],
                 gameover: [
                     { text: "¡No queda nada! (Llorando)", emotion: "sad" },
-                    { text: "Lo siento entrenador... Supongo que este es mi fin.", emotion: "sad" },
-                    { text: "... Espera, el dueño dice que nos da otra oportunidad.", emotion: "normal" },
-                    { text: "Pero aumentó la deuda un 10% por 'gastos administrativos'. ¡Inténtalo de nuevo!", emotion: "shock" }
+                    { text: "Supongo que este es mi fin.", emotion: "sad" },
+                    { text: "... Espera, nos dan otra oportunidad.", emotion: "normal" },
+                    { text: "¡Pero aumentó la deuda! ¡Cuidado!", emotion: "shock" }
                 ],
                 win: [
-                    { text: "¡LO LOGRAMOS! (Saltando de alegría)", emotion: "happy" },
-                    { text: "¡Aquí está el dinero! ¡Toma eso, dueño avaro!", emotion: "happy" },
-                    { text: "¡Gracias entrenador! Ahora puedo correr libre en el Derby. ¡Eres el mejor!", emotion: "happy" }
+                    { text: "¡LO LOGRAMOS! (Saltando)", emotion: "happy" },
+                    { text: "¡Gracias entrenador! ¡Eres el mejor!", emotion: "happy" }
                 ]
             },
+
             play: function (sceneKey) {
                 this.queue = this.scenes[sceneKey];
                 this.step = 0;
                 if (!this.queue) return;
                 document.getElementById('story-overlay').classList.add('visible');
-                host.hideCorner(); // Hide corner during story
+                host.hideCorner();
                 this.render();
             },
+
             render: function () {
                 const current = this.queue[this.step];
+
+                // Texto
                 document.getElementById('story-text').textContent = current.text;
+
+                // Imagen
+                const imgUrl = mamboSprites[current.emotion] || mamboSprites['normal'];
+                document.getElementById('story-sprite').src = imgUrl;
+
+                // Clases para animaciones CSS
                 document.getElementById('story-sprite').className = 'character-sprite sprite-' + current.emotion;
             },
+
             next: function () {
                 this.step++;
                 if (this.step >= this.queue.length) {
                     document.getElementById('story-overlay').classList.remove('visible');
                     if (this.queue === this.scenes.gameover) app.resetGame();
-                    else app.showMenu(); // Show menu (and corner mambo) after story
+                    else app.showMenu();
                 } else {
                     this.render();
                 }
@@ -1216,7 +1235,6 @@
                     this.updateBoard();
 
                     // --- AUTO WIN CHECK ---
-                    // Verifica si quedan multiplicadores ocultos. Si NO hay, ganaste.
                     const remainingMultis = this.grid.filter(c => !c.flip && c.val > 1).length;
                     if (remainingMultis === 0) {
                         this.active = false;
