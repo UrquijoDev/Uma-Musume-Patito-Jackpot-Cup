@@ -34,10 +34,12 @@
             color: var(--slate-800);
             min-height: 100vh;
             overflow-x: hidden;
-            background-image: repeating-linear-gradient(45deg, #4ade80 25%, transparent 25%, transparent 75%, #4ade80 75%, #4ade80),
-                repeating-linear-gradient(45deg, #4ade80 25%, #f0fdf4 25%, #f0fdf4 75%, #4ade80 75%, #4ade80);
-            background-position: 0 0, 10px 10px;
-            background-size: 20px 20px;
+            /* Fondo personalizado */
+            background-image: url('assets/img/Fondo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         /* --- UTILS --- */
@@ -161,41 +163,103 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- MENU --- */
+        /* --- MENU (GRID 3x3 + TIENDA) --- */
         .menu-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: 1rem;
-            padding: 1rem;
-            max-width: 800px;
+            grid-template-columns: 1fr 1fr 1fr;
+            /* 3 Columnas */
+            grid-template-rows: 1fr 1fr 1fr auto;
+            /* 3 Filas para juegos + 1 para tienda */
+            gap: 1.5rem;
+            padding: 2rem;
+            max-width: 1000px;
             margin: 0 auto;
+            min-height: 70vh;
+            /* Altura mínima para que se vea bien la distribución */
+
+            /* Definición de Áreas del Grid */
+            grid-template-areas:
+                "roulette . flip"
+                "roulette memory flip"
+                "roulette . flip"
+                "shop shop shop";
         }
 
+        /* Estilos de las Tarjetas del Menú */
         .menu-card {
             background: white;
             border-radius: 1rem;
             padding: 1rem;
             text-align: center;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
             border: 2px solid transparent;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
         }
 
         .menu-card:hover {
-            transform: translateY(-3px);
+            transform: translateY(-5px) scale(1.02);
             border-color: var(--pink-primary);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2);
         }
 
         .menu-card h3 {
             margin: 0.5rem 0;
-            font-size: 1rem;
+            font-size: 1.2rem;
             color: var(--slate-800);
+            font-weight: 800;
+            text-transform: uppercase;
+            font-style: italic;
         }
 
-        .menu-card.shop-card {
-            background: linear-gradient(to bottom right, #fff1f2, #ffe4e6);
+        /* Asignación de Áreas Específicas */
+        .area-roulette {
+            grid-area: roulette;
+            background: linear-gradient(to bottom right, #fff, #f0fdf4);
+            border-left: 5px solid var(--green-dark);
+        }
+
+        .area-memory {
+            grid-area: memory;
+            background: linear-gradient(to bottom right, #fff, #eff6ff);
+            border-top: 5px solid var(--blue-primary);
+        }
+
+        .area-flip {
+            grid-area: flip;
+            background: linear-gradient(to bottom right, #fff, #fff7ed);
+            border-right: 5px solid #f97316;
+        }
+
+        .area-shop {
+            grid-area: shop;
+            background: linear-gradient(to right, #fff1f2, #ffe4e6);
             border-color: #fda4af;
+            border-bottom: 5px solid var(--pink-dark);
+            flex-direction: row;
+            gap: 2rem;
+        }
+
+        /* Media Query para Móviles (se apilan verticalmente si la pantalla es muy chica) */
+        @media (max-width: 768px) {
+            .menu-grid {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+                grid-template-areas:
+                    "roulette"
+                    "memory"
+                    "flip"
+                    "shop";
+            }
+
+            .area-shop {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
         }
 
         /* --- DIFFICULTY SELECTOR --- */
@@ -622,25 +686,34 @@
 
         <!-- MENU PRINCIPAL -->
         <div id="view-menu" class="menu-grid">
-            <div class="menu-card" onclick="game.openDifficulty('flip')">
-                <div style="font-size:2.5rem;">💣</div>
-                <h3>Carrot Flip</h3>
-                <p style="font-size:0.8rem; color:#64748b;">Riesgo alto, recompensa alta.</p>
-            </div>
-            <div class="menu-card" onclick="game.openDifficulty('memory')">
-                <div style="font-size:2.5rem;">🧠</div>
-                <h3>Memory Match</h3>
-                <p style="font-size:0.8rem; color:#64748b;">Prueba de memoria rápida.</p>
-            </div>
-            <div class="menu-card" onclick="game.openDifficulty('roulette')">
-                <div style="font-size:2.5rem;">🎰</div>
+            <!-- 1. Izquierda: Derby Roulette -->
+            <div class="menu-card area-roulette" onclick="game.openDifficulty('roulette')">
+                <div style="font-size:3rem;">🎰</div>
                 <h3>Derby Roulette</h3>
-                <p style="font-size:0.8rem; color:#64748b;">Apuestas puras.</p>
+                <p style="font-size:0.9rem; color:#64748b;">¡Apuesta al G1!</p>
             </div>
-            <div class="menu-card shop-card" onclick="app.showShop()">
-                <div style="font-size:2.5rem;">🛒</div>
-                <h3>Mercado Negro</h3>
-                <p style="font-size:0.8rem; color:#be185d;">Items y Pagos.</p>
+
+            <!-- 2. Centro: Memory Match -->
+            <div class="menu-card area-memory" onclick="game.openDifficulty('memory')">
+                <div style="font-size:3rem;">🧠</div>
+                <h3>Memory Match</h3>
+                <p style="font-size:0.9rem; color:#64748b;">Entrena tu mente.</p>
+            </div>
+
+            <!-- 3. Derecha: Carrot Flip -->
+            <div class="menu-card area-flip" onclick="game.openDifficulty('flip')">
+                <div style="font-size:3rem;">💣</div>
+                <h3>Carrot Flip</h3>
+                <p style="font-size:0.9rem; color:#64748b;">Alto riesgo.</p>
+            </div>
+
+            <!-- 4. Abajo: Tienda -->
+            <div class="menu-card shop-card area-shop" onclick="app.showShop()">
+                <div style="font-size:3rem;">🛒</div>
+                <div>
+                    <h3>Mercado Negro</h3>
+                    <p style="font-size:0.9rem; color:#be185d;">Items, Mejoras y Pagos.</p>
+                </div>
             </div>
         </div>
 
