@@ -310,12 +310,16 @@
         }
 
         .shop-header-img {
-            width: 100%;
-            height: 200px;
+
+            display: block;
+            margin: 0 auto 1rem;
+            width: 350px;
+            max-width: 100%;
+            height: auto;
             background: #ddd;
             border-radius: 1rem;
             margin-bottom: 1rem;
-            object-fit: cover;
+            object-fit: contain;
             border: 4px solid white;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             display: flex;
@@ -749,8 +753,10 @@
                     <p style="text-align:center; font-size:0.8rem; color:var(--slate-600);">"Todo tiene un precio,
                         cariño..."</p>
 
-                    <button class="btn" onclick="app.showMenu()" style="margin-bottom:1rem; background:#e2e8f0;">Volver
-                        al Casino</button>
+                    <button class="btn" onclick="app.showMenu()"
+                        style="margin: 0 auto 1rem auto; background:#e2e8f0; width: fit-content; padding: 15px 40px; display: block;">
+                        Volver al Casino
+                    </button>
 
                     <!-- Items -->
                     <div class="item-row buff">
