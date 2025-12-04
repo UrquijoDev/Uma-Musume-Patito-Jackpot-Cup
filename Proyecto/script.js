@@ -407,11 +407,11 @@ const flipGame = {
             el.className = `flip-cell ${c.flip ? 'flipped' : ''}`;
 
             if (c.flip) {
-                if (c.val === 0) el.textContent = '🌧️';
+                if (c.val === 0) el.textContent = '💣';
                 else if (c.val > 1) { el.textContent = c.val; el.style.color = c.val === 3 ? '#b45309' : '#15803d'; }
                 else el.textContent = '1';
             } else {
-                if (c.memos[0]) el.innerHTML += `<div class="memo-marker m-0">🌧️</div>`;
+                if (c.memos[0]) el.innerHTML += `<div class="memo-marker m-0">💣</div>`;
                 if (c.memos[1]) el.innerHTML += `<div class="memo-marker m-1">1</div>`;
                 if (c.memos[2]) el.innerHTML += `<div class="memo-marker m-2">2</div>`;
                 if (c.memos[3]) el.innerHTML += `<div class="memo-marker m-3">3</div>`;
@@ -423,7 +423,7 @@ const flipGame = {
                 const rData = sums.rows[Math.floor(i / 5)];
                 const info = document.createElement('div');
                 info.className = 'info-cell';
-                info.innerHTML = `<span>${rData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>🌧️${rData.bomb}</span>`;
+                info.innerHTML = `<span>${rData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>💣${rData.bomb}</span>`;
                 div.appendChild(info);
             }
         }
@@ -431,7 +431,7 @@ const flipGame = {
             const cData = sums.cols[c];
             const info = document.createElement('div');
             info.className = 'info-cell';
-            info.innerHTML = `<span>${cData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>🌧️${cData.bomb}</span>`;
+            info.innerHTML = `<span>${cData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>💣${cData.bomb}</span>`;
             div.appendChild(info);
         }
     },
@@ -504,9 +504,9 @@ const memoryGame = {
         this.matches = 0;
 
         let pairCount = 6;
-        let attempts = 12;
+        let attempts = 18;
 
-        if (game.difficulty === 2) { pairCount = 8; attempts = 12; }
+        if (game.difficulty === 2) { pairCount = 8; attempts = 15; }
         if (game.difficulty === 5) { pairCount = 10; attempts = 10; }
 
         document.getElementById('mem-moves').textContent = attempts;
@@ -539,9 +539,7 @@ const memoryGame = {
         this.flipped.push(i);
 
         if (this.flipped.length === 2) {
-            this.attemptsLeft--;
-            document.getElementById('mem-moves').textContent = this.attemptsLeft;
-
+          
             const [a, b] = this.flipped;
             if (this.cards[a].val === this.cards[b].val) {
                 this.cards[a].solved = true;
@@ -557,6 +555,8 @@ const memoryGame = {
                     }, 500);
                 }
             } else {
+                  this.attemptsLeft--;
+                  document.getElementById('mem-moves').textContent = this.attemptsLeft;
                 if (this.attemptsLeft <= 0) {
                     setTimeout(() => {
                         app.showAlert("SIN INTENTOS", "Te quedaste sin energía...");
