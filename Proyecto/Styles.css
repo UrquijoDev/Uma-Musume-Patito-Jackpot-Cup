@@ -385,12 +385,12 @@
         }
 
         .host-img-small {
-            width: 100px;
-            height: 140px;
+            width: 150px;
+            height: 200px;
             object-fit: cover;
             object-position: top;
-            mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
-            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            mask-image: radial-gradient(ellipse at center bottom, black 50%, transparent 100%);            -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+            -webkit-mask-image: radial-gradient(ellipse at center bottom, black 50%, transparent 100%);
             cursor: pointer;
             transition: transform 0.2s;
             pointer-events: auto;
@@ -522,7 +522,7 @@
             cursor: pointer;
             position: relative;
             border-bottom: 3px solid var(--green-dark);
-            font-size: 1.2rem;
+            font-size: 2rem;
         }
 
         .flip-cell:active {
@@ -553,7 +553,7 @@
 
         .memo-marker {
             position: absolute;
-            font-size: 10px;
+            font-size: 18px;
             color: rgba(255, 255, 255, 0.9);
             pointer-events: none;
             text-shadow: 0 1px 1px rgba(0, 0, 0, 0.5);

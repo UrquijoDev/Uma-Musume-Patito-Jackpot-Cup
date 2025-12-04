@@ -520,6 +520,7 @@ const memoryGame = {
         board.innerHTML = '';
         board.style.gridTemplateColumns = pairCount > 8 ? 'repeat(5, 1fr)' : 'repeat(4, 1fr)';
 
+<<<<<<< Updated upstream
         this.cards = deck.map((val, i) => {
             const el = document.createElement('div');
             el.className = 'flip-cell';
@@ -532,6 +533,37 @@ const memoryGame = {
 
     click: function (i) {
         if (!this.active || this.cards[i].solved || this.flipped.includes(i) || this.flipped.length >= 2) return;
+=======
+                    if (c.flip) {
+                        if (c.val === 0) el.textContent = '💣';
+                        else if (c.val > 1) { el.textContent = c.val; el.style.color = c.val === 3 ? '#b45309' : '#15803d'; }
+                        else el.textContent = '1';
+                    } else {
+                        if (c.memos[0]) el.innerHTML += `<div class="memo-marker m-0">💣</div>`;
+                        if (c.memos[1]) el.innerHTML += `<div class="memo-marker m-1">1</div>`;
+                        if (c.memos[2]) el.innerHTML += `<div class="memo-marker m-2">2</div>`;
+                        if (c.memos[3]) el.innerHTML += `<div class="memo-marker m-3">3</div>`;
+                    }
+                    el.onclick = (e) => this.click(i, e);
+                    div.appendChild(el);
+
+                    if ((i + 1) % 5 === 0) {
+                        const rData = sums.rows[Math.floor(i / 5)];
+                        const info = document.createElement('div');
+                        info.className = 'info-cell';
+                        info.innerHTML = `<span>${rData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>💣${rData.bomb}</span>`;
+                        div.appendChild(info);
+                    }
+                }
+                for (let c = 0; c < 5; c++) {
+                    const cData = sums.cols[c];
+                    const info = document.createElement('div');
+                    info.className = 'info-cell';
+                    info.innerHTML = `<span>${cData.sum}</span><span style="border-top:1px solid #fdba74; width:80%"></span><span>💣${cData.bomb}</span>`;
+                    div.appendChild(info);
+                }
+            },
+>>>>>>> Stashed changes
 
         const c = this.cards[i];
         c.el.textContent = c.val;
@@ -564,6 +596,118 @@ const memoryGame = {
                     }, 500);
                     return;
                 }
+<<<<<<< Updated upstream
+=======
+            },
+
+            toggleMemo: function () {
+                this.memo = !this.memo;
+                document.getElementById('btn-memo').style.background = this.memo ? '#facc15' : '#f1f5f9';
+            },
+
+            cashOut: function () {
+                if (!this.active) return;
+                game.finishGame(this.pot);
+            }
+        };
+
+        /* --- GAME 2: MEMORY --- */
+        const memoryGame = {
+            active: false,
+            cards: [],
+            flipped: [],
+            matches: 0,
+
+            init: function () {
+                document.getElementById('view-game-memory').classList.remove('hidden');
+                this.active = true;
+                this.flipped = [];
+                this.matches = 0;
+
+                let pairCount = 6;
+                let attempts = 18;
+
+                if (game.difficulty === 2) { pairCount = 8; attempts = 20; }
+                if (game.difficulty === 5) { pairCount = 10; attempts = 24; }
+
+                document.getElementById('mem-moves').textContent = attempts;
+                this.attemptsLeft = attempts;
+
+                const types = ['🥕', '⚡', '💎', '💊', '🌙', '🔥', '❤️', '⭐', '🍀', '🍎'];
+                let selectedTypes = types.slice(0, pairCount);
+                let deck = [...selectedTypes, ...selectedTypes].sort(() => Math.random() - 0.5);
+
+                const board = document.getElementById('memory-board');
+                board.innerHTML = '';
+                board.style.gridTemplateColumns = pairCount > 8 ? 'repeat(5, 1fr)' : 'repeat(4, 1fr)';
+
+                this.cards = deck.map((val, i) => {
+                    const el = document.createElement('div');
+                    el.className = 'flip-cell';
+                    el.style.background = '#60a5fa';
+                    el.onclick = () => this.click(i);
+                    board.appendChild(el);
+                    return { val, el, solved: false };
+                });
+            },
+
+            click: function (i) {
+                if (!this.active || this.cards[i].solved || this.flipped.includes(i) || this.flipped.length >= 2) return;
+
+                const c = this.cards[i];
+                c.el.textContent = c.val;
+                c.el.style.background = 'white';
+                this.flipped.push(i);
+
+                if (this.flipped.length === 2) {
+
+                    const [a, b] = this.flipped;
+                    if (this.cards[a].val === this.cards[b].val) {
+                        this.cards[a].solved = true;
+                        this.cards[b].solved = true;
+                        this.flipped = [];
+                        this.matches++;
+
+                        if (this.matches === this.cards.length / 2) {
+                            const win = game.betCost * (3 + game.difficulty);
+                            setTimeout(() => {
+                                app.showAlert("¡MEMORIA PERFECTA!", `Ganaste ${win} zanahorias.`);
+                                game.finishGame(win);
+                            }, 500);
+                        }
+                    } else {
+                        this.attemptsLeft--;
+                        document.getElementById('mem-moves').textContent = this.attemptsLeft;
+                        if (this.attemptsLeft <= 0) {
+                            setTimeout(() => {
+                                app.showAlert("SIN INTENTOS", "Te quedaste sin energía...");
+                                game.finishGame(0);
+                            }, 500);
+                            return;
+                        }
+                        setTimeout(() => {
+                            this.cards[a].el.textContent = ''; this.cards[a].el.style.background = '#60a5fa';
+                            this.cards[b].el.textContent = ''; this.cards[b].el.style.background = '#60a5fa';
+                            this.flipped = [];
+                        }, 800);
+                    }
+                }
+            }
+        };
+
+        /* --- GAME 3: ROULETTE --- */
+        const rouletteGame = {
+            init: function () {
+                document.getElementById('view-game-roulette').classList.remove('hidden');
+                document.getElementById('roulette-bet-display').textContent = game.betCost;
+            },
+            pick: function (choice) {
+                const spinEl = document.getElementById('wheel-spinner');
+                spinEl.classList.add('animate-spin');
+                spinEl.style.transform = `rotate(${Math.random() * 1000}deg)`;
+                spinEl.style.transition = "transform 2s";
+
+>>>>>>> Stashed changes
                 setTimeout(() => {
                     this.cards[a].el.textContent = ''; this.cards[a].el.style.background = '#60a5fa';
                     this.cards[b].el.textContent = ''; this.cards[b].el.style.background = '#60a5fa';
