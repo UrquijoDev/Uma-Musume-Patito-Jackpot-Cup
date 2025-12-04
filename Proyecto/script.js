@@ -14,8 +14,9 @@
             updateUI: function () {
                 document.getElementById('ui-carrots').textContent = this.carrots;
                 document.getElementById('ui-debt').textContent = this.debt;
-                document.getElementById('ui-paid').textContent = this.paid;
-                const pct = Math.min(100, (this.paid / this.debt) * 100);
+                const totalCapacidad = this.paid + this.carrots;
+                document.getElementById('ui-paid').textContent = totalCapacidad;
+                const pct = Math.min(100, (totalCapacidad / this.debt) * 100);
                 document.getElementById('ui-progress').style.width = pct + '%';
             },
 
