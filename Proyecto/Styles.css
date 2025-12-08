@@ -26,7 +26,6 @@
             color: var(--slate-800);
             min-height: 100vh;
             overflow-x: hidden;
-            /* Fondo personalizado */
             background-image: url('assets/img/Fondo.jpg');
             background-size: cover;
             background-position: center;
@@ -34,7 +33,7 @@
             background-attachment: fixed;
         }
 
-        /* --- UTILS --- */
+
         .hidden {
             display: none !important;
         }
@@ -85,7 +84,6 @@
             transform: none;
         }
 
-        /* --- HEADER & PROGRESS --- */
         header {
             position: sticky;
             top: 0;
@@ -155,21 +153,18 @@
             text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
         }
 
-        /* --- MENU (GRID 3x3 + TIENDA) --- */
+        /* --- MENU  --- */
         .menu-grid {
             display: grid;
             grid-template-columns: 1fr 1fr 1fr;
-            /* 3 Columnas */
             grid-template-rows: 1fr 1fr 1fr auto;
-            /* 3 Filas para juegos + 1 para tienda */
             gap: 1.5rem;
             padding: 2rem;
             max-width: 1000px;
             margin: 0 auto;
             min-height: 70vh;
-            /* Altura mínima para que se vea bien la distribución */
+          
 
-            /* Definición de Áreas del Grid */
             grid-template-areas:
                 "roulette . flip"
                 "roulette memory flip"
@@ -177,7 +172,6 @@
                 "shop shop shop";
         }
 
-        /* Estilos de las Tarjetas del Menú */
         .menu-card {
             background: white;
             border-radius: 1rem;
@@ -208,7 +202,6 @@
             font-style: italic;
         }
 
-        /* Asignación de Áreas Específicas */
         .area-roulette {
             grid-area: roulette;
             background: linear-gradient(to bottom right, #fff, #f0fdf4);
@@ -236,7 +229,6 @@
             gap: 2rem;
         }
 
-        /* Media Query para Móviles (se apilan verticalmente si la pantalla es muy chica) */
         @media (max-width: 768px) {
             .menu-grid {
                 grid-template-columns: 1fr;
@@ -254,7 +246,6 @@
             }
         }
 
-        /* --- DIFFICULTY SELECTOR --- */
         .diff-modal {
             background: white;
             padding: 1.5rem;
@@ -292,7 +283,7 @@
             border-color: #2563eb;
         }
 
-        /* --- SHOP --- */
+        /* --- Tienda --- */
         .shop-container {
             max-width: 600px;
             margin: 0 auto;
@@ -354,7 +345,6 @@
             padding: 0.5rem 1rem;
         }
 
-        /* --- MAMBO CORNER (Asistente) --- */
         #host-corner {
             position: fixed;
             bottom: 0;
@@ -364,7 +354,7 @@
             flex-direction: column;
             align-items: flex-start;
             pointer-events: none;
-            /* Allows clicking through empty space */
+            
         }
 
         .host-bubble {
@@ -414,7 +404,6 @@
         }
 
 
-        /* --- NARRATIVE OVERLAY --- */
         #story-overlay {
             position: fixed;
             inset: 0;
@@ -454,7 +443,6 @@
             z-index: 10;
         }
 
-        /* Emociones */
         .sprite-normal {
             filter: brightness(1);
         }
@@ -500,7 +488,6 @@
             box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
         }
 
-        /* --- GAME BOARDS --- */
         .game-area {
             max-width: 600px;
             margin: 1rem auto;
@@ -510,7 +497,6 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
-        /* Carrot Flip specific */
         .flip-grid {
             display: grid;
             grid-template-columns: repeat(6, 1fr);
@@ -585,14 +571,12 @@
             right: 2px;
         }
 
-        /* Memory Match Specific */
         .memory-board {
             display: grid;
             gap: 0.5rem;
             margin-top: 1rem;
         }
 
-        /* Roulette Specific */
         .roulette-container {
             display: flex;
             flex-direction: row;
@@ -610,14 +594,12 @@
             display: none;
         }
 
-        /* Hidden on mobile by default or flex col */
         @media (min-width: 600px) {
             .roulette-girl-img {
                 display: block;
             }
         }
 
-        /* Animations */
         @keyframes popIn {
             from {
                 transform: scale(0.9);

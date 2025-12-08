@@ -11,7 +11,6 @@
 <body>
 
     <div id="app">
-        <!-- HEADER -->
         <header>
             <div class="header-top">
                 <div class="brand">MAMBO'S DEBT</div>
@@ -25,28 +24,30 @@
 
         <!-- MENU PRINCIPAL -->
         <div id="view-menu" class="menu-grid">
-            <!-- 1. Izquierda: Derby Roulette -->
+            
+            <!-- 1. Ruleta -->
+            
             <div class="menu-card area-roulette" onclick="game.openDifficulty('roulette')">
                 <div style="font-size:3rem;">🎰</div>
                 <h3>Derby Roulette</h3>
                 <p style="font-size:0.9rem; color:#64748b;">¡Apuesta al G1!</p>
             </div>
 
-            <!-- 2. Centro: Memory Match -->
+            <!-- 2. Memorama -->
             <div class="menu-card area-memory" onclick="game.openDifficulty('memory')">
                 <div style="font-size:3rem;">🧠</div>
                 <h3>Memory Match</h3>
                 <p style="font-size:0.9rem; color:#64748b;">Entrena tu mente.</p>
             </div>
 
-            <!-- 3. Derecha: Carrot Flip -->
+            <!-- 3.Carrot Flip -->
             <div class="menu-card area-flip" onclick="game.openDifficulty('flip')">
                 <div style="font-size:3rem;">💣</div>
                 <h3>Carrot Flip</h3>
                 <p style="font-size:0.9rem; color:#64748b;">Alto riesgo.</p>
             </div>
 
-            <!-- 4. Abajo: Tienda -->
+            <!-- Tienda -->
             <div class="menu-card shop-card area-shop" onclick="app.showShop()">
                 <div style="font-size:3rem;">🛒</div>
                 <div>
@@ -56,14 +57,14 @@
             </div>
         </div>
 
-        <!-- SELECTOR DE DIFICULTAD/APUESTA -->
+        <!-- SELECTOR DE APUESTA -->
         <div id="view-difficulty" class="hidden">
             <div class="diff-modal">
                 <h2 style="margin-top:0;">Elige tu Apuesta</h2>
                 <p style="font-size:0.9rem; color:#64748b;">Cuanto más apuestes, más difícil será, pero ganarás más.</p>
 
                 <div class="bet-grid" id="diff-options">
-                    <!-- JS generará opciones -->
+
                 </div>
 
                 <p id="diff-desc" style="font-size:0.8rem; font-style:italic; height:20px; color:#be185d;"></p>
@@ -80,7 +81,7 @@
         <!-- TIENDA -->
         <div id="view-shop" class="hidden">
             <div class="shop-container">
-                <!-- Imagen de la chica de la tienda (Placeholder) -->
+   
                 <img src="assets/img/SpecialweekSTSF.png" class="shop-header-img" alt="Dueña de la Tienda">
 
                 <div class="shop-grid">
@@ -145,7 +146,6 @@
 
                 <div id="flip-buff-indicator" class="active-buff hidden">⛑️</div>
 
-                <!-- El tablero Voltorb Flip clásico -->
                 <div class="flip-grid" id="flip-board"></div>
 
                 <div class="flex justify-center gap-2" style="margin-top:1rem;">
@@ -159,7 +159,7 @@
             </div>
         </div>
 
-        <!-- JUEGO: MEMORY -->
+        <!-- JUEGO: MEMORIA -->
         <div id="view-game-memory" class="hidden">
             <div class="game-area">
                 <div class="flex justify-between items-center mb-2">
@@ -171,11 +171,11 @@
             </div>
         </div>
 
-        <!-- JUEGO: ROULETTE -->
+        <!-- JUEGO: RULETA-->
         <div id="view-game-roulette" class="hidden">
             <div class="game-area" style="text-align:center;">
                 <div class="roulette-container">
-                    <!-- Imagen de la chica de la Ruleta (Placeholder) -->
+                    <!-- Imagen Ruleta  -->
                     <img src="assets/img/mamboRuletaSF.png" class="roulette-girl-img" alt="Croupier">
 
                     <div>
@@ -213,10 +213,9 @@
                 style="background:var(--slate-800); color:white; margin-top:1rem;">Cerrar</button>
         </div>
 
-        <!-- STORY OVERLAY -->
+        <!-- OVERLAY -->
         <div id="story-overlay">
             <div class="story-box">
-                <!-- Imagen dinámica -->
                 <img src="" id="story-sprite" class="character-sprite" alt="Mambo">
                 <div class="dialogue-box">
                     <div class="speaker-name">Mambo</div>
@@ -230,7 +229,7 @@
             </div>
         </div>
 
-        <!-- MAMBO CORNER (Asistente) -->
+        <!-- Asistente -->
         <div id="host-corner" class="hidden">
             <div class="host-bubble" id="host-bubble">¡Tú puedes!</div>
             <img src="assets/img/mamboIdleSF.png" class="host-img-small" alt="Chibi" onclick="host.randomQuote()">

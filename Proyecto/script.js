@@ -1,34 +1,31 @@
-/* --- AUDIO --- */
+/* --- Audio --- */
 const mamboSound = new Audio('assets/SFX/MamboSound.mp3');
 const mainTheme = new Audio('assets/SFX/MainTheme.mp3');
 const miniGameMusic = new Audio('assets/SFX/MF.mp3');
 const shopMusic = new Audio('assets/SFX/Shop.mp3');
 
-// Configurar volumen (0.3 = 30% del volumen original)
+// volumen 
 mamboSound.volume = 0.3;
 mainTheme.volume = 0.3;
 miniGameMusic.volume = 0.3;
 shopMusic.volume = 0.3;
 
-// Configurar los audios para que se repitan en bucle
+// Configurar los audios 
 mainTheme.loop = true;
 miniGameMusic.loop = true;
 shopMusic.loop = true;
 
-// Variable para llevar el control de la música actual
+
 let currentMusic = null;
 
 function playMusic(music) {
-    // Si ya está sonando esa música, no hacemos nada
     if (currentMusic === music) return;
 
-    // Pausar todas las músicas
     if (currentMusic) {
         currentMusic.pause();
         currentMusic.currentTime = 0;
     }
 
-    // Reproducir la nueva música
     music.currentTime = 0;
     music.play().catch(e => console.log("No se pudo reproducir la música:", e));
     currentMusic = music;
@@ -42,7 +39,7 @@ function stopMusic() {
     }
 }
 
-/* --- GAME STATE --- */
+/* --- BASE DE JUEGO --- */
 const app = {
     carrots: 100,
     debt: 50000,
@@ -51,7 +48,6 @@ const app = {
 
     init: function () {
         this.updateUI();
-        // Reproducir música principal inmediatamente
         playMusic(mainTheme);
         story.play('intro');
     },
@@ -92,7 +88,7 @@ const app = {
             this.updateUI();
             return;
         }
-        stopMusic(); // Detener música durante gameover
+        stopMusic(); 
         story.play('gameover');
     },
 
@@ -115,7 +111,7 @@ function hideAllViews() {
     document.querySelectorAll('[id^="view-"]').forEach(el => el.classList.add('hidden'));
 }
 
-/* --- MAMBO HOST LOGIC --- */
+/* --- LOGICA ASISTENTE --- */
 const host = {
     quotes: [
         "¡Recuerda que los 1 no quitan puntos!",
@@ -144,7 +140,7 @@ const host = {
     }
 };
 
-/* --- DEFINICIÓN DE IMÁGENES DE MAMBO --- */
+/* --- DEFINICION DE IMAGENES DE MAMBO --- */
 const mamboSprites = {
     normal: "assets/img/mamboIdleSF.png",
     sad: "assets/img/mambosadSF.png",
@@ -152,7 +148,7 @@ const mamboSprites = {
     shock: "assets/img/DizzyMamboSF.png"
 };
 
-/* --- STORY ENGINE --- */
+/* --- HISTORIA  --- */
 const story = {
     queue: [],
     step: 0,
@@ -218,7 +214,7 @@ const story = {
     }
 };
 
-/* --- SHOP LOGIC --- */
+/* --- TIENDA  --- */
 const shop = {
     buy: function (item, cost) {
         if (app.carrots >= cost) {
@@ -254,16 +250,16 @@ const shop = {
     }
 };
 
-/* --- GENERAL GAME MANAGER --- */
+/* --- GENERAL  --- */
 const game = {
     currentGame: null,
-    difficulty: 1, // 1 (Novice), 2 (Runner), 5 (G1)
+    difficulty: 1,
     betCost: 0,
 
     openDifficulty: function (gameType) {
         this.currentGame = gameType;
         hideAllViews();
-        host.hideCorner(); // Hide Mambo while playing
+        host.hideCorner(); 
         document.getElementById('view-difficulty').classList.remove('hidden');
         const container = document.getElementById('diff-options');
         container.innerHTML = '';
@@ -300,7 +296,6 @@ const game = {
         app.carrots -= this.betCost;
         app.updateUI();
         hideAllViews();
-        // Cambiar a música de minijuegos
         playMusic(miniGameMusic);
         if (this.currentGame === 'flip') flipGame.init();
         if (this.currentGame === 'memory') memoryGame.init();
@@ -322,7 +317,7 @@ const game = {
     }
 };
 
-/* --- GAME 1: FLIP (Auto Win Logic) --- */
+/* --- Juego 1: FLIP  --- */
 const flipGame = {
     grid: [],
     active: false,
@@ -467,7 +462,6 @@ const flipGame = {
             }
             this.updateBoard();
 
-            // --- AUTO WIN CHECK ---
             const remainingMultis = this.grid.filter(c => !c.flip && c.val > 1).length;
             if (remainingMultis === 0) {
                 this.active = false;
@@ -490,7 +484,7 @@ const flipGame = {
     }
 };
 
-/* --- GAME 2: MEMORY --- */
+/* --- Juego 2: Memoria --- */
 const memoryGame = {
     active: false,
     cards: [],
@@ -574,7 +568,7 @@ const memoryGame = {
     }
 };
 
-/* --- GAME 3: ROULETTE --- */
+/* ---Juego 3: RULETA --- */
 const rouletteGame = {
     init: function () {
         document.getElementById('view-game-roulette').classList.remove('hidden');
@@ -607,5 +601,5 @@ const rouletteGame = {
     }
 };
 
-// START
+// Inicio
 app.init();
